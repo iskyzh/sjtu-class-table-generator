@@ -6,9 +6,9 @@ This script requires you to grab data yourself.
 
 ## Grab Classtable Data
 
-1. Visit https://i.sjtu.edu.cn
+1. Visit http://kbcx.sjtu.edu.cn
 2. 信息查询 - 学生课表查询
-3. In Developer Tools, find request with URL like `https://i.sjtu.edu.cn/kbcx/xskbcx_cxXsKb.html`.
+3. In Developer Tools, find request with URL like `http://kbcx.sjtu.edu.cn/kbcx/xskbcx_cxXsKb.html`.
 4. Paste all data to `data.json`. It should be like:
 
 ```json
