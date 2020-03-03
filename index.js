@@ -17,6 +17,8 @@ const courses = data.kbList.filter(course => !course.ignore).map(course => ({
     note: course.xkbz
 }))
 
+const stu_name = data.xsxx.XM
+
 debug(`${courses.length} courses loaded, generating calendar...`)
 
 // Edit course start time here
@@ -39,13 +41,15 @@ const events = []
 const ZOOM = require('./config.js').ZOOM
 const ZOOM_NAME = require('./config.js').NAME
 
-function zoom_url(name) {
+function zoom_url(course) {
     for (let key in ZOOM) {
-        if (name.includes(key)) {
+        if (course.name.includes(key)) {
             return `zoommtg://zoom.us/join?confno=${ZOOM[key][0]}&pwd=${ZOOM[key][1]}&uname=${encodeURIComponent(ZOOM_NAME)}`
         }
     }
-    return ""
+    let matches = course.note.match(/会议号：(\d{9})；密码：(\d{8})/)
+    if (matches == null || matches.length < 3) return ""
+    else return `zoommtg://zoom.us/join?confno=${matches[1]}&pwd=${matches[2]}&uname=${encodeURIComponent(ZOOM_NAME)}`
 }
 
 courses.forEach(course => {
@@ -56,7 +60,7 @@ courses.forEach(course => {
     let time_start = parseInt(_time[1])
     let time_end = parseInt(_time[2])
     let message = `  ${course.location} ${course.teacher} ${course.score} 学分 | ${course.note}`
-    let z_url = zoom_url(course.name);
+    let z_url = zoom_url(course);
     if (z_url != "") debug(`Zoom URL: ${z_url}`)
     debug(message)
     _weeks.forEach(week => {
@@ -78,6 +82,6 @@ courses.forEach(course => {
 
 ics.createEvents(events, (err, res) => {
     if (err) console.error(err);
-    fs.writeFileSync('result.ics', res);
+    fs.writeFileSync(`Curricula for ${stu_name}.ics`, res);
     debug("success")
 });
