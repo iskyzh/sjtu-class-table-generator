@@ -1,0 +1,17 @@
+{
+  "name": "class_generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^4.1.1",
+    "ics": "^2.18.0",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0"
+  }
+}
