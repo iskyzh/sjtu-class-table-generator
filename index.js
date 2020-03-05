@@ -28,9 +28,9 @@ const time_at = ["8:00", "8:55", "10:00", "10:55", "12:00", "12:55", "14:00", "1
 const week_begin_at = "2020/03/02"
 
 const parse_week_string = str => {
-    let res = str.match(/^(.*)-(.*)周$/)
+    const res = str.match(/^(\d+)-(\d+)周(\((单|双)\))?$/)
     if (res) {
-        return _.range(parseInt(res[1]), parseInt(res[2]) + 1)
+        return _.range(parseInt(res[1], 10), parseInt(res[2], 10) + 1, res[3] && 2)
     } else {
         return str.split(',').map(d => parseInt(_.dropRight(d, 1).join("")))
     }
