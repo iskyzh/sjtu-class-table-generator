@@ -1,4 +1,4 @@
-result.ics
+*.ics
 data.json
 node_modules/
 config.js

@@ -1,5 +1,8 @@
 module.exports = {
     "ZOOM" : {
+        // Zoom URL generation is now automatic
+        // You can still manually specify the meeting info for some courses here
+        
         // course keyword : [Meeting ID, Meeting Password]
         // If course name includes course keyword, a Zoom URL will be attached to the event
         // For example, the following config will attach Zoom URL to 
