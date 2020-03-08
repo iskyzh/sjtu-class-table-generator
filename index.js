@@ -42,25 +42,28 @@ const ZOOM = require('./config.js').ZOOM
 const ZOOM_NAME = require('./config.js').NAME
 const URL_FIELD_MODE = require('./config.js').URL_FIELD_MODE
 
-function zoom_url(name, mode) {
+function zoom_url_final(mode, confno, pwd, uname) {
+    let prefix = ""
+    if (mode == "PC") {
+        prefix = "zoommtg://zoom.us/join?"
+    } else if (mode == "Mobile") {
+        prefix = "zoomus://zoom.us/join?"
+    } else if (mode == "Redirect") {
+        prefix = "https://skyzh.github.io/zoom-url-generator/?jump=true&"
+    } else {
+        return ""
+    }
+    return `${prefix}confno=${confno}&pwd=${pwd}&uname=${encodeURIComponent(uname)}`
+}
+function zoom_url(course, name, mode) {
     for (let key in ZOOM) {
         if (name.includes(key)) {
-            let prefix = ""
-            if (mode == "PC") {
-                prefix = "zoommtg://zoom.us/join?"
-            } else if (mode == "Mobile") {
-                prefix = "zoomus://zoom.us/join?"
-            } else if (mode == "Redirect") {
-                prefix = "https://skyzh.github.io/zoom-url-generator/?jump=true&"
-            } else {
-                return ""
-            }
-            return `${prefix}confno=${ZOOM[key][0]}&pwd=${ZOOM[key][1]}&uname=${encodeURIComponent(ZOOM_NAME)}`
+            return zoom_url_final(mode, ZOOM[key][0], ZOOM[key][1], ZOOM_NAME)
         }
     }
     let matches = course.note.match(/会议号：(\d{9})；密码：(\d{8})/)
     if (matches == null || matches.length < 3) return ""
-    else return `zoommtg://zoom.us/join?confno=${matches[1]}&pwd=${matches[2]}&uname=${encodeURIComponent(ZOOM_NAME)}`
+    else return zoom_url_final(mode, matches[1], matches[2], ZOOM_NAME)
 }
 
 courses.forEach(course => {
@@ -71,7 +74,7 @@ courses.forEach(course => {
     let time_start = parseInt(_time[1])
     let time_end = parseInt(_time[2])
     let message = `  ${course.location} ${course.teacher} ${course.score} 学分 | ${course.note}`
-    const z_url = zoom_url(course.name, URL_FIELD_MODE);
+    const z_url = zoom_url(course, course.name, URL_FIELD_MODE);
     debug(message)
     _weeks.forEach(week => {
         let datetime_begin = moment(`${week_begin_at} ${time_at[time_start - 1]}`, "YYYY/MM/DD HH:mm:ss").add(week - 1, 'week').add(day - 1, 'day')
