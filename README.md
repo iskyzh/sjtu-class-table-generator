@@ -1,5 +1,8 @@
 # SJTU Class Importer
 
+**UPDATE: This script has been integrated to [course-plus](https://github.com/SJTU-Plus/course-plus).**
+Please use the newly-designed app to generate ICS file!
+
 This is a semi-automated program for automatically export class table into calendar events.
 
 This script requires you to grab data yourself.
